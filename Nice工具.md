@@ -10,4 +10,4 @@
 
 
 
- ![golang](pic\golang.jpg)
+ ![golang](\pic\golang.jpg)
