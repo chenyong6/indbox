@@ -1,0 +1,26 @@
+方法一：
+CREATE TABLE customers
+(
+  customerid SERIAL primary key ,
+  companyname character varying,
+  contactname character varying,
+  phone character varying,
+  country character varying
+)
+方法二：
+CREATE SEQUENCE t_user_id_seq  
+START WITH 1  
+INCREMENT BY 1  
+NO MINVALUE  
+NO MAXVALUE  
+CACHE 1;  
+
+alter table t_user alter column id set default nextval('t_user_id_seq');
+方法一：实质上主键都通过使用 serial 类型来实现的， 
+使用serial类型，PG会自动创建一个序列给主键用，当插入表数据时如果不指定ID，则ID会默认使用序列的 
+NEXT值。    
+drop 表时卸载 序列
+    
+方法二：是先创建一张表，再创建一个序列，然后将表主键ID的默认值设置成这个序列的NEXT值。这种写法 
+似乎更符合人们的思维习惯，也便于管理，如果系统遇到sequence 性能问题时，便于调整 sequence 属性;
+ 

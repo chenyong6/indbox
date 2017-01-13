@@ -1,0 +1,36 @@
+package 代码库.并发编程.并发编程的艺术.并发工具类;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+public class Driver2 { // ...
+	public static void main() throws InterruptedException {
+		final int N = 5;
+		CountDownLatch doneSignal = new CountDownLatch(N);
+		Executor e = Executors.newCachedThreadPool();
+
+		for (int i = 0; i < N; ++i) // create and start threads
+			e.execute(new WorkerRunnable(doneSignal, i));
+
+		doneSignal.await(); // wait for all to finish
+	}
+
+	static class WorkerRunnable implements Runnable {
+		private final CountDownLatch doneSignal;
+		private final int i;
+
+		WorkerRunnable(CountDownLatch doneSignal, int i) {
+			this.doneSignal = doneSignal;
+			this.i = i;
+		}
+
+		public void run() {
+			doWork(i);
+			doneSignal.countDown();
+		}
+
+		void doWork(int i) {
+		}
+	}
+}
